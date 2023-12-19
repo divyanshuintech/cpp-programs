@@ -31,10 +31,6 @@ Node *buildTree(Node *root)
     root->right = buildTree(root->right);
 }
 
-void levelOrder(Node *root)
-{
-    
-}
 
 void inorder(Node *root)
 {

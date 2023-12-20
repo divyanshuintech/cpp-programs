@@ -31,6 +31,74 @@ Node *buildTree(Node *root)
     root->right = buildTree(root->right);
 }
 
+void buildTreeFromLevelOrder(Node *&root)
+{
+    queue<Node *> q;
+    int data;
+    cin >> data;
+    root = new Node(data);
+    q.push(root);
+
+    while (!q.empty())
+    {
+        Node *temp = q.front();
+        q.pop();
+
+        cout << "Enter data for inserting in left of " << temp->data << endl;
+        int leftData;
+        cin >> leftData;
+
+        if (leftData != -1)
+        {
+            temp->left = new Node(leftData);
+            q.push(temp->left);
+        }
+
+        cout << "Enter data for inserting in right of " << temp->data << endl;
+        int rightData;
+        cin >> rightData;
+
+        if (rightData != -1)
+        {
+            temp->right = new Node(rightData);
+            q.push(temp->right);
+        }
+    }
+}
+
+void levelOrder(Node *root)
+{
+    queue<Node *> q;
+    q.push(root);
+    q.push(NULL);
+
+    while (!q.empty())
+    {
+        Node *temp = q.front();
+        q.pop();
+        if (!temp)
+        {
+            cout << endl;
+            if (!q.empty())
+            {
+                q.push(NULL);
+            }
+        }
+        else
+        {
+            cout << temp->data << " ";
+            if (temp->left)
+            {
+                q.push(temp->left);
+            }
+
+            if (temp->right)
+            {
+                q.push(temp->right);
+            }
+        }
+    }
+}
 
 void inorder(Node *root)
 {
@@ -73,9 +141,23 @@ void postorder(Node *root)
 
 int main()
 {
+    // Data for making binary tree : 1 2 4 -1 -1 5 -1 -1 3 6 -1 -1 7 -1 -1
     Node *root = NULL;
-    root = buildTree(root);
-    // Data for making tree : 1 2 4 -1 -1 5 -1 -1 3 6 -1 -1 7 -1 -1
+    bool input = 0;
+    cout << "Enter 1 if you want to build tree using level order : ";
+    cin >> input;
+    cout << "Enter data for root node : ";
+    if (input)
+    {
+        buildTreeFromLevelOrder(root);
+    }
+    else
+    {
+        buildTree(root);
+    }
+    cout << endl
+         << "Levelorder Traversal below : " << endl;
+    levelOrder(root);
     cout << endl
          << "Inorder Traversal below : " << endl;
     inorder(root);
